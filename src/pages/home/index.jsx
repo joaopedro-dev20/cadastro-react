@@ -1,34 +1,25 @@
 import Trash from '../../asset/lixo.png'
 import './style.css'
+import api from '../../service/api'
+import { useEffect, useState } from 'react'
+// UseEffect para chamar a função GET como recomdado no REACT. 
+
 
 function Home() {
 
-  const users = [
-    {
+  const [users, setUsers] = useState([])
 
-      id: '1356afs',
-      name: 'João',
-      age: 24,
-      email: 'joao@gmail.com',
+  //UseState permite que quando houver alterações consigamos visualizá-las. 
 
-    },
-    {
+  async function getUsers() {
+    const usersFromApi = await api.get('/usuarios')
 
-      id: '2136egasdg',
-      name: 'Rafa',
-      age: 25,
-      email: 'rafa@gmail.com'
+    setUsers(usersFromApi.data)
+  }
 
-    },
-    {
-
-      id: '2134fskbf',
-      name: 'Pedro',
-      age: 45,
-      email: 'pedro@gmail.com'
-
-    }
-  ]
+  useEffect(() => {
+    getUsers()
+  }, [])
 
   return (
 
@@ -36,7 +27,7 @@ function Home() {
       <form>
         <h1>Cadastro de Usuários</h1>
         <input placeholder='Nome' name='name' type='text' />
-        <input placeholder= 'Idade'name='idade' type='number' />
+        <input placeholder='Idade' name='idade' type='number' />
         <input placeholder='Email' name='email' type='email' />
         <button type='button'>Cadastrar</button>
       </form>
@@ -50,14 +41,14 @@ function Home() {
             <p>Email: <span>{user.email}</span></p>
           </div>
           <button>
-            <img src={Trash} 
-            alt="lata de lixo"
-            width={50}
-            height={50}
+            <img src={Trash}
+              alt="lata de lixo"
+              width={50}
+              height={50}
             />
           </button>
         </div>
-      ))}    
+      ))}
     </div>
   )
 }
